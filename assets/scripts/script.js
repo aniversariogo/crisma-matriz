@@ -5,7 +5,7 @@
   const $$ = (s) => [...document.querySelectorAll(s)];
 
   // URL base da sua API (onde o server.js está rodando)
-  const API_BASE_URL = "https://crisma-app-crisma.onrender.com/api";
+  const API_BASE_URL = "https://crisma-app-matriz.onrender.com/api";
 
   /* ----------  dados base (serão populados pelo servidor, não mais via localStorage) ---------- */
   // As listas iniciais de alunos e encontros serão buscadas da API
@@ -1262,6 +1262,5 @@
   //   });
   // });
 })();
-
 
 
