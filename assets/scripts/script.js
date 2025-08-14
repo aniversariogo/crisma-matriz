@@ -1146,7 +1146,9 @@
     const themeButton = document.getElementById("theme");
     const arrowIcon = document.getElementById("arrowIcon");
     const logoCapela = document.getElementById("logoCapela");
-
+    const logoParoquia = document.getElementById("logoParoquia");
+    const iconLogo = document.getElementById("iconLogo");
+    
     // Seleciona todos os outros elementos que precisam ter a classe 'dark' alternada
     const elementosParaAlterar = document.querySelectorAll(
       "a, body, label, th, td, .titulo, .tr-1, .tr-2, .td2, .circle, " +
@@ -1159,10 +1161,14 @@
       light: {
         arrow: "/assets/images/icons/arrow-dark-icon.svg", // Imagem para fundo claro
         logo: "/assets/images/capela-dark.png", // Imagem para fundo claro
+        logoParoquia: "/assets/images/paroquia-dark.png",
+        iconLogo: "/assets/images/icons/logo-ns-ap-dark.png",
       },
       dark: {
         arrow: "/assets/images/icons/arrow-light-icon.svg", // Imagem para fundo escuro
         logo: "/assets/images/logo-capela.png", // Imagem para fundo escuro
+        logoParoquia: "/assets/images/logo-paroquia.png",
+        iconLogo: "/assets/images/icons/logo-ns-ap.png",
       },
     };
 
@@ -1186,11 +1192,16 @@
       if (logoCapela) {
         logoCapela.src = ehDark ? imagens.dark.logo : imagens.light.logo;
       }
+      if (logoParoquia) {
+        logoParoquia.src = ehDark ? imagens.dark.logoParoquia : imagens.light.logoParoquia;
+      }
+      if (iconLogo) {
+        iconLogo.src = ehDark ? imagens.dark.iconLogo : imagens.light.iconLogo;
+      }
 
       // Bônus: Atualiza o atributo no body para estilização via CSS, se necessário
       document.body.setAttribute("data-theme", tema);
     };
-
     /**
      * Lógica do clique no botão de tema.
      */
@@ -1262,5 +1273,6 @@
   //   });
   // });
 })();
+
 
 
