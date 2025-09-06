@@ -383,6 +383,7 @@
       event.preventDefault();
       const id = crismandoForm.dataset.id;
       const nome = nomeCrismandoInput.value.trim();
+
       if (!nome) {
         alert("O nome do crismando é obrigatório!");
         return;
@@ -403,6 +404,15 @@
             headers: {
               "Content-Type": "application/json",
             },
+            body: JSON.stringify({ nome: nome }),
+          });
+        } else {
+          // Novo crismando: Send nome and initial faltas
+          response = await fetch(`${API_BASE_URL}/crismandos`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
             body: JSON.stringify({
               nome: nome,
             }),
@@ -412,15 +422,12 @@
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(
-            errorData.error ||
-              `Erro ao ${id ? "atualizar" : "adicionar"} crismando: ${
-                response.status
-              }`
+            errorData.error || `Erro ao salvar crismando: ${response.status}`
           );
         }
 
         crismandoFormDialog.close();
-        fetchAndRenderData(); // Recarrega a tabela
+        await fetchAndRenderData(); // Recarrega a tabela
         alert(`Crismando ${id ? "atualizado" : "adicionado"} com sucesso!`);
       } catch (error) {
         console.error(`Erro ao salvar crismando:`, error);
@@ -989,13 +996,15 @@
       let data = dataInput.value;
       let hora = horaInput.value;
 
-      if (!data) {
-        const now = new Date();
-        data = now.toISOString().split("T")[0];
-        hora = now.toTimeString().split(" ")[0].substring(0, 5);
+      if (data) {
+        if (hora) {
+          dataCompleta = new Date(`${data}T${hora}`).toISOString();
+        } else {
+          dataCompleta = new Date(`${data}T00:00`).toISOString();
+        }
+      } else {
+        dataCompleta = new Date().toISOString();
       }
-
-      const dataHoraCompleta = `${data}T${hora}:00`;
 
       if (!assunto || !local) {
         alert("Assunto e Local são obrigatórios!");
@@ -1008,13 +1017,13 @@
           response = await fetch(`${API_BASE_URL}/encontros/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ data: dataHoraCompleta, assunto, local }),
+            body: JSON.stringify({ data: dataCompleta, assunto, local }),
           });
         } else {
           response = await fetch(`${API_BASE_URL}/encontros`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ data: dataHoraCompleta, assunto, local }),
+            body: JSON.stringify({ data: dataCompleta, assunto, local }),
           });
         }
 
@@ -1273,6 +1282,7 @@
   //   });
   // });
 })();
+
 
 
 
